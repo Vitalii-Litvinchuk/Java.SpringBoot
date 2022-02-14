@@ -69,10 +69,10 @@ public class FileSystemStorageService implements StorageService {
 
             byte[] imageByte = Base64.decodeBase64(charArray[1]);
 
-            String filename= RandomStringUtils.randomAlphabetic(40).concat(".")
+            String filename = RandomStringUtils.randomAlphabetic(40).concat(".")
                     .concat(extension);
 
-            String directory= rootLocation+"/"+filename; //servletContext.getRealPath("/")+"images/sample.jpg";
+            String directory = rootLocation + "/" + filename; //servletContext.getRealPath("/")+"images/sample.jpg";
 
             new FileOutputStream(directory).write(imageByte);
 
@@ -88,10 +88,9 @@ public class FileSystemStorageService implements StorageService {
         try {
             Path file = load(filename);
             Resource resource = new UrlResource(file.toUri());
-            if(resource.exists() || resource.isReadable()) {
+            if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }
-            else {
+            } else {
                 throw new StorageFileNotFoundException("Could not read file: " + filename);
 
             }
@@ -109,6 +108,10 @@ public class FileSystemStorageService implements StorageService {
     public void init() {
         try {
             Files.createDirectory(rootLocation);
+            Files.createDirectory(Paths.get(rootLocation.toString() + "/" + "300x200"));
+            Files.createDirectory(Paths.get(rootLocation.toString() + "/" + "600x500"));
+            Files.createDirectory(Paths.get(rootLocation.toString() + "/" + "800x600"));
+            Files.createDirectory(Paths.get(rootLocation.toString() + "/" + "1280x720"));
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }

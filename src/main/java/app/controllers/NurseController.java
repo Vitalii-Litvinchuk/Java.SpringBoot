@@ -23,26 +23,26 @@ public class NurseController {
     }
 
     @PostMapping("/add-nurse")
-    public String Add(NurseDTO nurseDTO) {
+    public ResponseEntity Add(NurseDTO nurseDTO) {
         if (nurseRepository.findByPhone(nurseDTO.phone).size() != 0)
-            return ResponseEntity.badRequest().body(" phone must be different ").toString();
+            return ResponseEntity.badRequest().body(" phone must be different ");
         if (nurseDTO.name != "" && nurseDTO.phone != "") {
             nurseRepository.save(nurseMapper.NurseDTOToNurse(nurseDTO));
-            return ResponseEntity.ok(nurseDTO).toString();
+            return ResponseEntity.ok(nurseDTO);
         }
-        return ResponseEntity.badRequest().body(" incorrect nurse value : " + nurseDTO).toString();
+        return ResponseEntity.badRequest().body(" incorrect nurse value : " + nurseDTO);
     }
 
     @DeleteMapping("/delete-nurse")
-    public String Delete(int NurseId) {
+    public ResponseEntity Delete(int NurseId) {
         if (nurseRepository.existsById(NurseId)) {
             nurseRepository.deleteById(NurseId);
-            return "Successfully deleted";
-        } else return ResponseEntity.badRequest().body(" nurse doesn`t exist").toString();
+            return ResponseEntity.ok("Successfully deleted");
+        } else return ResponseEntity.badRequest().body(" nurse doesn`t exist");
     }
 
     @PutMapping("/edit-nurse")
-    public String Edit(int NurseId, NurseDTO nurseDTO) {
+    public ResponseEntity Edit(int NurseId, NurseDTO nurseDTO) {
         Nurse nurse = nurseRepository.getById(NurseId);
         String error_message = "";
         if (nurseDTO.name != "" && nurse.getName() != nurseDTO.name)
@@ -52,6 +52,6 @@ public class NurseController {
                 nurse.setPhone(nurseDTO.phone);
         } else error_message += " but phone number wasn`t changed because nurse with it exist";
         nurseRepository.save(nurse);
-        return "Successfully edited" + error_message;
+        return ResponseEntity.ok("Successfully edited" + error_message);
     }
 }

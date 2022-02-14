@@ -22,12 +22,12 @@ public class BinderController {
     private final NurseRepository nurseRepository;
 
     @PostMapping("/nurse-and-doctor-relationship")
-    public String NurseAndDoctorRelationship(int doctorId, int nurseId){
+    public ResponseEntity NurseAndDoctorRelationship(int doctorId, int nurseId){
         if (!doctorRepository.existsById(doctorId))
-            return ResponseEntity.badRequest().body(" not found doctor by id : " + doctorId).toString();
+            return ResponseEntity.badRequest().body(" not found doctor by id : " + doctorId);
 
         if (!nurseRepository.existsById(nurseId))
-            return ResponseEntity.badRequest().body(" not found nurse by id : " + nurseId).toString();
+            return ResponseEntity.badRequest().body(" not found nurse by id : " + nurseId);
 
         Doctor doctor = doctorRepository.getById(doctorId);
         Nurse nurse = nurseRepository.getById(nurseId);
@@ -35,14 +35,12 @@ public class BinderController {
         try {
             Set<Nurse> nurses = doctor.getNurses();
             nurses.add(nurse);
-
-
 //            doctor.setNurses(nurses);
             nurse.setDoctor(doctor);
             doctorRepository.save(doctor);
             nurseRepository.save(nurse);
-        }   catch (Exception ex) { return "Bound error";}
+        }   catch (Exception ex) { return ResponseEntity.badRequest().body("Bound error");}
 
-        return "Successful bound doctor : " + doctorId + " and nurse : " + nurseId;
+        return ResponseEntity.ok().body("Successful bound doctor : " + doctorId + " and nurse : " + nurseId);
     }
 }
