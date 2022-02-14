@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
         // if (e.target.files)
         //     formData.append("file", e.target.files[0]);
         if (imgRef.current)
-            formData.append("file", base64);
+            formData.append("base64", base64);
         await ApiJson().post("/image/add", formData);
     };
 
