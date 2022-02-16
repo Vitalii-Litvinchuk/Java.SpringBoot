@@ -5,18 +5,15 @@ import {
     Button, Modal,
     Row, Col
 } from 'antd';
-import { ApiJson } from "../../http_common";
+import http, { urlBackend } from "../../http_common";
 
 const HomePage: React.FC = () => {
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const imgRef = React.useRef<HTMLImageElement>(null);
     const prevRef = React.useRef<HTMLImageElement>(null);
     const [cropperObj, setCropperObj] = React.useState<Cropper>();
-    const [imageView, setImageView] = React.useState<string>("https://www.securityindustry.org/wp-content/uploads/sites/3/2018/05/noimage.png");
-
-
-    // React.useEffect(()=>{
-    // },[]);
+    // const [imageView, setImageView] = React.useState<string>("https://www.securityindustry.org/wp-content/uploads/sites/3/2018/05/noimage.png");
+    const [imageView, setImageView] = React.useState<string>(`${urlBackend}image/get/noimage.jpg`);
 
     const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = (e.target.files as FileList)[0];
@@ -39,16 +36,6 @@ const HomePage: React.FC = () => {
         }
     };
 
-    // postFile(fileToUpload: File): Observable < boolean > {
-    //     const endpoint = 'your-destination-url';
-    //     const formData: FormData = new FormData();
-    //     formData.append('fileKey', fileToUpload, fileToUpload.name);
-    //     return this.httpClient
-    //         .post(endpoint, formData, { headers: yourHeadersConfig })
-    //         .map(() => { return true; })
-    //         .catch((e) => this.handleError(e));
-    // }
-
     const handleOk = async () => {
         const base64 = cropperObj?.getCroppedCanvas().toDataURL() as string;
         console.log("Cropper data: ", base64);
@@ -57,11 +44,9 @@ const HomePage: React.FC = () => {
 
         let formData = new FormData();
 
-        // if (e.target.files)
-        //     formData.append("file", e.target.files[0]);
         if (imgRef.current)
             formData.append("base64", base64);
-        await ApiJson().post("/image/add", formData);
+        await http.post("image/add", formData);
     };
 
     const handleCancel = () => {
@@ -69,7 +54,6 @@ const HomePage: React.FC = () => {
     };
     return (
         <>
-            {/* <h1>Головна сторінка</h1> */}
             <label htmlFor="uploading">
                 <input
                     id="uploading"

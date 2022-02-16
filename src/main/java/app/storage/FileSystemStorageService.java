@@ -1,6 +1,7 @@
 package app.storage;
 
 
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
@@ -65,19 +71,20 @@ public class FileSystemStorageService implements StorageService {
             }
             String[] charArray = base64.split(",");
 
-            String extension = charArray[0].split("/")[1].split(";")[0];
+//          String extension = charArray[0].split("/")[1].split(";")[0];
 
             byte[] imageByte = Base64.decodeBase64(charArray[1]);
 
-            String filename = RandomStringUtils.randomAlphabetic(40).concat(".")
-                    .concat(extension);
+            UUID uuid = UUID.randomUUID();
 
-            String directory = rootLocation + "/" + filename; //servletContext.getRealPath("/")+"images/sample.jpg";
+            String filename = uuid.toString().concat(".jpg");
+                    //.concat(extension);
+
+            String directory = rootLocation + "/" + filename;
 
             new FileOutputStream(directory).write(imageByte);
 
             return filename;
-            //Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
         } catch (IOException e) {
             throw new StorageException("Failed to store file ", e);
         }

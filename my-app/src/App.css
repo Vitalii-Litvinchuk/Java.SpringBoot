@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+.ant-carousel .slick-prev::before {
+    content: '\2039';
+    position: relative;
+    right: -25px;
+    font-size: 5.5vw;
+    color: whitesmoke;
+    background-color: transparent;
+    display: flex;
+    bottom: 10px;
+    z-index: 100;
+}
+
+.ant-carousel .slick-next::before {
+    content: '\203A';
+    position: relative;
+    right: 2.1vw;
+    font-size: 5.5vw;
+    color: whitesmoke;
+    background-color: transparent;
+    display: flex;
+    bottom: 10px;
+    z-index: 100;
+}
+

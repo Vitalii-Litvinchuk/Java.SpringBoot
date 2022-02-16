@@ -1,18 +1,17 @@
 import axios from "axios";
 
-export const ApiJson = () => {
-    let api = axios.create({
-        baseURL: "http://localhost:8082/",
-        headers: {
-            "Content-type": "application/json"
-        }
-    });
-    return api;
-}
+export const urlBackend = "http://localhost:8082/";
+
+export default axios.create({
+    baseURL: urlBackend,
+    headers: {
+        "Content-type": "application/json"
+    }
+});
 
 export const ApiMultipart = () => {
     let api = axios.create({
-        baseURL: "http://localhost:8082/",
+        baseURL: urlBackend,
         headers: {
             "Content-type": "multipart/form-data",
         },
