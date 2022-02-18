@@ -52,7 +52,7 @@
 .ant-carousel .slick-next::before {
     content: '\203A';
     position: relative;
-    right: 2.1vw;
+    left: -2.1vw;
     font-size: 5.5vw;
     color: whitesmoke;
     background-color: transparent;
@@ -60,4 +60,3 @@
     bottom: 10px;
     z-index: 100;
 }
-

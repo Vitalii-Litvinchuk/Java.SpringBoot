@@ -2,7 +2,6 @@ import * as React from "react";
 import { Carousel, Col, Row } from "antd";
 import CropperModal from '../common/CropperModal';
 import http, { urlBackend } from '../../http_common';
-import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons'
 
 const UploadingPage: React.FC = () => {
     const [images, setImages] = React.useState<Array<string>>([]);

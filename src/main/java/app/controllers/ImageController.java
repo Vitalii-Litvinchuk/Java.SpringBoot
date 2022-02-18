@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.core.io.Resource;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -37,12 +38,23 @@ public class ImageController {
     @GetMapping("/get/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws Exception {
-
-        Resource file = storageService.loadAsResource(filename);
-        String urlFileName =  URLEncoder.encode("сало.jpg", StandardCharsets.UTF_8.toString());
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .header(HttpHeaders.CONTENT_DISPOSITION,"filename=\""+urlFileName+"\"")
-                .body(file);
+        if (imageRepository.existsByName(filename) || filename == "noimage.jpg") {
+            Resource file = storageService.loadAsResource(filename);
+            String urlFileName = URLEncoder.encode("сало.jpg", StandardCharsets.UTF_8.toString());
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + urlFileName + "\"")
+                    .body(file);
+        } else {
+            if (filename.split("_").length > 1) {
+                Resource file = storageService.loadAsResourceSpecial(filename);
+                String urlFileName = URLEncoder.encode("сало.jpg", StandardCharsets.UTF_8.toString());
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + urlFileName + "\"")
+                        .body(file);
+            }
+            return null;
+        }
     }
 }
