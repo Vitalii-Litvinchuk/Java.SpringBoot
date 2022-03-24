@@ -18,9 +18,11 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    private String email;
 
     private String password;
+
+    private String username;
 
     private String fullName;
 
@@ -43,8 +45,8 @@ public class UserEntity {
         roles=new ArrayList<RoleEntity>();
     }
 
-    public UserEntity(String username, String password) {
-        this.username = username;
+    public UserEntity(String email, String password) {
+        this.email = email;
         this.password = password;
         this.enabled = true;
         roles=new ArrayList<RoleEntity>();

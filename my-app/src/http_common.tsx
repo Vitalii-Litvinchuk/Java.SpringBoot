@@ -9,12 +9,10 @@ export default axios.create({
     }
 });
 
-export const ApiMultipart = () => {
-    let api = axios.create({
+export const ApiMultipart = () =>
+    axios.create({
         baseURL: urlBackend,
         headers: {
             "Content-type": "multipart/form-data",
         },
     });
-    return api;
-}
