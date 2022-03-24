@@ -121,4 +121,10 @@ public class AuthController {
                 .header(HttpHeaders.AUTHORIZATION)
                 .body(token);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logoutUser() {
+        String token = jwtTokenUtil.generateLogoutToken();
+        return ResponseEntity.ok().body(token);
+    }
 }

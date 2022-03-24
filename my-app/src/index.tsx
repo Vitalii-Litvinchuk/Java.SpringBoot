@@ -5,10 +5,16 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { UserFromToken } from './components/auth/actions';
+import { TokenValid } from './components/auth/types';
+import jwtDecode from 'jwt-decode';
 
 const token = localStorage.token;
 if (token) {
-  UserFromToken(token, store.dispatch);
+  try {
+    if ((jwtDecode(token) as TokenValid).valid) {
+      UserFromToken(token, store.dispatch);
+    }
+  } catch (ex) { localStorage.removeItem("token") }
 }
 
 ReactDOM.render(

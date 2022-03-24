@@ -1,7 +1,8 @@
 import internal from "stream";
 
 export enum AuthActionTypes {
-    Token = "Token"
+    Token = "Token",
+    Logout = "Logout",
 }
 
 //////////////
@@ -16,6 +17,10 @@ export interface AuthState {
     isAuth: boolean;
 }
 
+export interface TokenValid {
+    valid: boolean | null
+}
+
 //////////////
 
 export interface ITokenAction {
@@ -23,4 +28,8 @@ export interface ITokenAction {
     user: IUser,
 }
 
-export type AuthAction = ITokenAction;
+export interface ILogoutAction {
+    type: AuthActionTypes.Logout
+}
+
+export type AuthAction = ITokenAction | ILogoutAction;

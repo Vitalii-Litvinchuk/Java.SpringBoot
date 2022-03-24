@@ -54,9 +54,6 @@ const RegisterPage = () => {
         }
     }
 
-    console.log(error);
-    console.log(formik.getFieldMeta("token"));
-
     return (
         <>
             <h1 className="text-center mt-3">Реєстрація</h1>
@@ -105,7 +102,6 @@ const RegisterPage = () => {
                                     <ReCAPTCHA
                                         sitekey={captchaKey}
                                         size="normal"
-                                        theme="dark"
                                         ref={reRef}
                                         onChange={onChangeCaptcha}
                                     />

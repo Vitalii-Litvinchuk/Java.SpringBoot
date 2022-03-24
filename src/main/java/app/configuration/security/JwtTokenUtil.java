@@ -27,11 +27,18 @@ public class JwtTokenUtil {
                 .claim("id", user.getId())
                 .claim("email",  user.getEmail())
                 .claim("username", user.getUsername())
+                .claim("valid", true)
                 //.claim("roles", user.getUsername())
                 .setIssuer(jwtIssuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 1 week
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
+    public String generateLogoutToken() {
+        return Jwts.builder()
+                .claim("valid", false)
                 .compact();
     }
 

@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { AuthAction } from "../types";
 import { ILoginModel, ILoginResponse } from "./types";
-import http from '../../../http_common'
+import http from '../../../http_common';
 import { UserFromToken } from "../actions";
 
 export const UserLogin = (model: ILoginModel, setError: (error: string) => void) => {

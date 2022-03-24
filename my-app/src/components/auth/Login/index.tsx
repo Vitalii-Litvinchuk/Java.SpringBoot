@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useActions } from "../../../hooks/useActions";
 import InputGroup from "../../common/InputGroup";
@@ -16,6 +16,8 @@ const LoginPage: FC = () => {
     }
 
     const [error, setError] = useState<string>("");
+
+    const reRef = useRef<ReCAPTCHA>(null);
 
     const { UserLogin } = useActions();
 
@@ -54,7 +56,7 @@ const LoginPage: FC = () => {
                     <div className="col-md-10 col-lg-8 col-xl-5 bg-light shadow-lg p-3 bg-white rounded p-4">
                         {error !== "" ?
                             <div className="text-center alert-danger m-1 p-2 rounded shadow-lg">
-                                {error}
+                                {error}{reRef.current?.reset()}
                             </div> : <></>}
                         <FormikProvider value={formik}>
                             <Form onSubmit={handleSubmit}>
@@ -81,7 +83,6 @@ const LoginPage: FC = () => {
                                     <ReCAPTCHA
                                         sitekey={captchaKey}
                                         size="normal"
-                                        theme="dark"
                                         onChange={onChangeCaptcha}
                                     />
                                 </div>
